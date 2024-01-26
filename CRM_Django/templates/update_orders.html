@@ -1,0 +1,10 @@
+{% include 'base.html' %}
+
+<div class="col-md-6 offset-md-3" >
+<form method="post" action="{% url 'up_orders' orders.Order_id %}">
+    {% csrf_token %}
+    {{form.as_p}}
+    <a href="{% url 'home' %}" class="btn btn-danger">Back</a>
+    <button type="submit" class="btn btn-secondary">Update</button>
+</form>
+</div>

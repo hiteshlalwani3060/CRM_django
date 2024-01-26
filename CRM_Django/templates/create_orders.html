@@ -1,0 +1,33 @@
+{% include 'base.html' %}
+<div class="col-md-6 offset-md-3" >
+<form action="{% url 'create_or' %}" method="post">
+  {% csrf_token %}
+    <div class="mb-3">
+      <label for="Customer" class="form-label">Select Customer</label>
+      <select class="form-select" aria-label="Default select example" name="Customers" required>
+        <option value="Select Customer" selected>Select Customer</option>
+        {% for re in record %}
+        <option value="{{re.first_name}} {{re.last_name}}">{{re.first_name}} {{re.last_name}}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="Product_Name" class="form-label">Enter Product Name</label>
+      <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Product Name" name="pro_name" required>
+    </div>
+    <div class="mb-3">
+      <label for="Order_Date" class="form-label">Enter Order Date</label>
+      <input type="date" class="form-control" id="exampleInputPassword1" name="datetime" required>
+    </div>
+    <div class="mb-3">
+      <label for="Status" class="form-label">Select Status</label>
+      <select class="form-select" aria-label="Default select example" name="status" required>
+        <option value="Select Status" selected>Select Status</option>
+        <option value="Pending">Pending</option>
+        <option value="Delivered">Delivered</option>
+        <option value="Cancelled">Cancelled</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-secondary">Submit</button>
+  </form>
+</div>

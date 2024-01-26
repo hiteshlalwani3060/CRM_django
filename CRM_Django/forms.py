@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Record
+from .models import Record,Orders
 
 
 class SignUpForm(UserCreationForm):
@@ -43,3 +43,18 @@ class add_form(forms.ModelForm):
        class Meta:
               model= Record
               exclude= ("user",)
+
+class update_orders(forms.ModelForm):
+        product_name=forms.CharField(required=True,max_length=110,widget=forms.widgets.TextInput(attrs={'placeholder':'Product Name','class':'form-control'}))
+        Date_ordered=forms.DateTimeField(required=True,widget=forms.widgets.DateTimeInput(attrs={'placeholder':'Date Ordered','class':'form-control','inputtype':"datetime"}))
+        Status=forms.IntegerField(required=True,widget=forms.widgets.TextInput(attrs={'placeholder':'Status','class':'form-control'}))
+
+        class Meta:
+               model= Orders
+               fields= ('product_name','Date_ordered','Status')
+
+        def __init__(self, *args, **kwargs):
+               super(update_orders,self).__init__(*args, **kwargs)
+               self.fields['Status'].help_text = '<ul class="form-text text-muted small"><li>0 for Pending</li><li>1 for delivered</li><li>2 for Cancelled</li></ul>'
+
+               

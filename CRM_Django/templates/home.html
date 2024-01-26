@@ -1,42 +1,98 @@
 {% include 'base.html' %}
 
 {% if user.is_authenticated %}
-<br>
-  <table class="table table-striped">
-    <thead class="table-dark">
+<h3 style="margin: 8px 0px 18px 24px;">Dashboard</h3>
+<div class="container">
+<div class="card" style="width: 18rem; display: inline-block; margin: 0px 49px 0px -94px;">
+  <div class="card-body">
+    <h5 class="card-title">Total Orders</h5>
+    <p class="card-text">{{Total_orders}}</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+<div class="card" style="width: 18rem; display: inline-block; margin: 0px 49px 0px 0px;">
+  <div class="card-body">
+    <h5 class="card-title">Pending</h5>
+    <p class="card-text">{{pending_orders}}</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+<div class="card" style="width: 18rem; display: inline-block; margin: 0px 49px 0px 0px;">
+  <div class="card-body">
+    <h5 class="card-title">Cancelled Orders</h5>
+    <p class="card-text">{{Cancelled_orders}}</p>
+    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+<div class="card" style="width: 18rem; display: inline-block; margin: 0px 49px 0px 0px;">
+  <div class="card-body">
+    <h5 class="card-title">Delivered Items</h5>
+    <p class="card-text">{{Delivered}}</p>
+    <!-- <!- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  </div>
+</div>
+</div>
+<!-- ---------------------------- Recent Orders ----------------------------------- -->
+<div class="container text-left " style="margin: 25px 0px 0px 0px;">
+  <div class="row">
+    <div class="col-6 " style="max-height: 425px; overflow-y: auto;">
+      <h3>Recent Orders</h3>
+      <table class="table table-hover">
       <tr>
-        <th scope="col">id</th>
-        <th scope="col">Name</th>
-        <th scope="col">email</th>
-        <th scope="col">phone</th>
-        <th scope="col">address</th>
-        <th scope="col">city</th>
-        <th scope="col">state</th>
-        <th scope="col">zipcode</th>
-        <th scope="col">created_at</th>
+        <th>Customer</th>
+        <th>Product</th>
+        <th>Date Ordered</th>
+        <th>Status</th>
+        <th>Update</th>
+        <!-- <th>Remove</th> -->
       </tr>
-    </thead>
-    <tbody>
+      {% for order in orders %}
       <tr>
-      {% if records %}
-        {% for record in records %}
-        <td><a href="{% url 'record' record.id %}" class="id">{{record.id}}</a></td> 
-        <td>{{record.first_name}} {{record.last_name}}</td>
-        <td>{{record.email}}</td>
-        <td>{{record.phone}}</td>
-        <td>{{record.address}}</td>
-        <td>{{record.city}}</td>
-        <td>{{record.state}}</td>
-        <td>{{record.zipcode}}</td>
-        <td>{{record.created_at}}</td>
+        <td>{{order.Customer_ID}}</td>
+        <td>{{order.product_name}}</td>
+        <td>{{order.Date_ordered}}</td>
+        {% if order.Status == 0 %}
+          <td>Pending</td>
+        {% elif order.Status == 1 %}
+          <td>Delivered</td>
+        {% else %}
+          <td>Cancelled</td>
+        {% endif %}
+        <td><a href="{% url 'up_orders' order.Order_id %}" class="btn btn-secondary">Update</a></td>
+        <!-- <td><button class="btn btn-danger" onclick="RemoveOrder()">Remove</button></td> -->
       </tr>
-        {% endfor %}  
-    </tbody>
-  </table>
-{% endif %}
+      {% endfor %}
+      </table>
+    </div>
+    <!-- ----------------------------------------Customer------------------------------------------- -->
+    <div class="col-6" style="max-height: 425px; overflow-y: auto;">
+      <h3 style="margin-left:113px ;">Customers</h3>
+      <div class="col-lg-10 md-3" >
+      <table class="table" style="margin: 0px 0px 0px 114px;">
+        <tr>
+          <th>Customer</th>
+          <th>Phone</th>
+          <th></th>
+        </tr>
+        {% for customer in records %}
+        <tr>
+          <td>{{customer.first_name}}</td>
+          <td>{{customer.phone}}</td>
+          <td><a href="{% url 'record' customer.id %}" style="text-decoration: none; ">View</a></td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    </div>
+  </div>
+</div>
 
-          
-     
+<script>
+    function RemoveOrder(){
+      document.getElementById("{{order.Customer_ID}}").style.display= "none";
+    }
+
+</script>
 
 {% else %}
 <div class="col-md-6 offset-md-3" >
@@ -55,3 +111,4 @@
       </form>
 </div>
 {% endif %}
+
